@@ -1,4 +1,5 @@
-##FullThrottleAlchemistNEI
+FullThrottleAlchemistNEI
+==
 
 This is an add-on mod for FullThrottle Alchemist by bluedart.
 
