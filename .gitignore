@@ -1,0 +1,28 @@
+## Minecraft
+/versions.json
+
+## gradle
+/.gradle
+/build
+/gradle
+/gradlew
+/gradlew.bat
+
+## ForgeGradle
+/run
+/libs
+
+## eclipse
+/eclipse
+/.settings
+/.metadata
+/.classpath
+/.project
+/bin
+
+## intellij
+/out
+/.idea
+/*.iml
+/*.ipr
+/*.iws

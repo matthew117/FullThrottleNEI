@@ -1,0 +1,16 @@
+[
+{
+  "modid": "fullthrottlenei",
+  "name": "FullThrottle NEI",
+  "description": "Additional NEI addons for FullThrottle Alchemist.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["matthew_117"],
+  "credits": "bluedart for all of his work on DartCraft and FTA.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["NotEnoughItems","Project_Alchemy"]
+}
+]
