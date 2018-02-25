@@ -1,6 +1,5 @@
 package net.matthewbates.fullthrottlenei.gui;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 

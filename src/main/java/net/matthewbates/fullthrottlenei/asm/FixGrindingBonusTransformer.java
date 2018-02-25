@@ -3,9 +3,6 @@ package net.matthewbates.fullthrottlenei.asm;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 /**
  * Created by Matthew on 27/04/2016.
  */

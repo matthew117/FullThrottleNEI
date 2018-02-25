@@ -1,6 +1,5 @@
 package net.matthewbates.fullthrottlenei.gui;
 
-import codechicken.lib.inventory.InventorySimple;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

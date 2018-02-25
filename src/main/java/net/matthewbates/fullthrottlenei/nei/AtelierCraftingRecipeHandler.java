@@ -17,7 +17,6 @@ import pa.api.recipe.BasicRecipe;
 
 import java.awt.*;
 import java.lang.reflect.Field;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
