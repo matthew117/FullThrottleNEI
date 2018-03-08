@@ -5,9 +5,9 @@ package net.matthewbates.fullthrottlenei.json;
  */
 public class JsonBonusItem
 {
+    public final float chance = 1.0f;
     public String itemID;
     public int amount;
-    public float chance = 1.0f;
 
     public JsonBonusItem()
     {

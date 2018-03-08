@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * Created by Matthew on 29/04/2016.
  */
+
+// VM args: -Dfml.coreMods.load=net.matthewbates.fullthrottlenei.asm.FullThrottleNEICorePlugin
 @TransformerExclusions({"net.matthewbates.fullthrottlenei.asm"})
 @MCVersion("1.7.10")
 public class FullThrottleNEICorePlugin implements IFMLLoadingPlugin
@@ -60,12 +62,11 @@ public class FullThrottleNEICorePlugin implements IFMLLoadingPlugin
      * "coremodList" : the list of coremods
      * "coremodLocation" : the file this coremod loaded from,
      *
-     * @param data
+     * @param data core mod data
      */
     @Override
     public void injectData(Map<String, Object> data)
     {
-
     }
 
     /**

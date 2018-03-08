@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
  */
 class SlotElementFlask extends SlotDummy
 {
-    private ExtContainer container;
+    private final ExtContainer container;
 
     SlotElementFlask(ExtContainer container, IInventory inv, int slot, int x, int y)
     {

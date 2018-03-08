@@ -15,7 +15,7 @@ public class GuiHandler implements IGuiHandler
         switch (ID)
         {
             case 0:
-                return new EditElementsContainer( player.inventory);
+                return new EditElementsContainer(player.inventory);
         }
 
         return null;

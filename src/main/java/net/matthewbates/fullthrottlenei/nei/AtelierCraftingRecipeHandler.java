@@ -28,67 +28,38 @@ public class AtelierCraftingRecipeHandler extends TemplateRecipeHandler
 {
     private static final int X_OFFSET = 3;
 
-    public class CachedAtelierCrafting extends TemplateRecipeHandler.CachedRecipe
+    private String getRecipeID()
     {
-        List<PositionedStack> ingredients;
-        PositionedStack result;
-        BasicRecipe recipe;
+        return FullThrottleNEI.MODID + ":" + "atelierCrafting";
+    }
 
-        CachedAtelierCrafting(BasicRecipe recipe, ItemStack result)
+    @Override
+    public String getRecipeName()
+    {
+        return "Atelier Crafting";
+    }
+
+    @Override
+    public void loadTransferRects()
+    {
+        transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(X_OFFSET + 58, 73, 44, 8), getRecipeID()));
+    }
+
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results)
+    {
+        if (outputId.equals(getRecipeID()) && getClass() == AtelierCraftingRecipeHandler.class)
         {
-            result.stackSize = 1;
-            this.result = new PositionedStack(result, X_OFFSET + 126, 57);
-            this.ingredients = new ArrayList<PositionedStack>();
-            this.recipe = recipe;
-            try
+            List<BasicRecipe> recipes = AlchemyUtil.getResearch();
+            for (BasicRecipe recipe : recipes)
             {
-                Class<?> clazz = Class.forName("pa.data.PAItems");
-
-                Field vellumf = clazz.getDeclaredField("vellum");
-                Item vellum = (Item) vellumf.get(null);
-                if (vellum != null)
-                {
-                    ItemStack vstack = new ItemStack(vellum);
-                    vstack.setTagCompound(new NBTTagCompound());
-                    vstack.getTagCompound().setString("recipeID", recipe.getName());
-                    ingredients.add(new PositionedStack(vstack, X_OFFSET + 79, 49));
-                }
-
-                Field flaskf = clazz.getDeclaredField("forceFlask");
-                Item flask = (Item) flaskf.get(null);
-                if (flask != null)
-                {
-                    int i = 0;
-                    for (Map.Entry<String, Float> element : recipe.getIngredients().entrySet())
-                    {
-                        int x = 8 + (i % 2) * 27;
-                        int y = 17 + (i / 2) * 27;
-                        ItemStack fstack = new ItemStack(flask);
-                        fstack.setTagCompound(new NBTTagCompound());
-                        fstack.setItemDamage(32 + AlchemyUtil.getElementByName(element.getKey()).getNumber());
-                        fstack.getTagCompound().setFloat("amount", element.getValue());
-                        ingredients.add(new PositionedStack(fstack, X_OFFSET + x, y));
-                        i++;
-                    }
-                }
-
-            } catch (Exception e)
-            {
-                e.printStackTrace();
+                if (recipe.getIngredients() != null && !recipe.getIngredients().isEmpty())
+                    arecipes.add(new CachedAtelierCrafting(recipe, recipe.getDefaultItem()));
             }
-
-        }
-
-        public List<PositionedStack> getIngredients()
+        } else
         {
-            return ingredients;
+            super.loadCraftingRecipes(outputId, results);
         }
-
-        public PositionedStack getResult()
-        {
-            return result;
-        }
-
     }
 
     @Override
@@ -143,45 +114,9 @@ public class AtelierCraftingRecipeHandler extends TemplateRecipeHandler
     }
 
     @Override
-    public void loadCraftingRecipes(String outputId, Object... results)
-    {
-        if (outputId.equals(getRecipeID()) && getClass() == AtelierCraftingRecipeHandler.class)
-        {
-            List<BasicRecipe> recipes = AlchemyUtil.getResearch();
-            for (BasicRecipe recipe : recipes)
-            {
-                if (recipe.getIngredients() != null && !recipe.getIngredients().isEmpty())
-                    arecipes.add(new CachedAtelierCrafting(recipe, recipe.getDefaultItem()));
-            }
-        } else
-        {
-            super.loadCraftingRecipes(outputId, results);
-        }
-    }
-
-    private String getRecipeID()
-    {
-        return FullThrottleNEI.MODID + ":" + "atelierCrafting";
-    }
-
-    @Override
-    public String getRecipeName()
-    {
-        return "Atelier Crafting";
-    }
-
-    @Override
     public String getGuiTexture()
     {
         return (new ResourceLocation(FullThrottleNEI.MODID, "textures/gui/neiAtelierCrafting.png")).toString();
-    }
-
-    @Override
-    public void drawBackground(int recipe)
-    {
-        GL11.glColor4f(1, 1, 1, 1);
-        GuiDraw.changeTexture(getGuiTexture());
-        GuiDraw.drawTexturedModalRect(X_OFFSET, 0, 0, 0, 160, 130);
     }
 
     @Override
@@ -208,16 +143,80 @@ public class AtelierCraftingRecipeHandler extends TemplateRecipeHandler
         GL11.glPopMatrix();
     }
 
-
     @Override
-    public void loadTransferRects()
+    public void drawBackground(int recipe)
     {
-        transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(X_OFFSET + 58, 73, 44, 8), getRecipeID()));
+        GL11.glColor4f(1, 1, 1, 1);
+        GuiDraw.changeTexture(getGuiTexture());
+        GuiDraw.drawTexturedModalRect(X_OFFSET, 0, 0, 0, 160, 130);
     }
 
     @Override
     public int recipiesPerPage()
     {
         return 1;
+    }
+
+    class CachedAtelierCrafting extends TemplateRecipeHandler.CachedRecipe
+    {
+        final List<PositionedStack> ingredients;
+        final PositionedStack result;
+        final BasicRecipe recipe;
+
+        CachedAtelierCrafting(BasicRecipe recipe, ItemStack result)
+        {
+            result.stackSize = 1;
+            this.result = new PositionedStack(result, X_OFFSET + 126, 57);
+            this.ingredients = new ArrayList<>();
+            this.recipe = recipe;
+            try
+            {
+                Class<?> clazz = Class.forName("pa.data.PAItems");
+
+                Field vellumf = clazz.getDeclaredField("vellum");
+                Item vellum = (Item) vellumf.get(null);
+                if (vellum != null)
+                {
+                    ItemStack vstack = new ItemStack(vellum);
+                    vstack.setTagCompound(new NBTTagCompound());
+                    vstack.getTagCompound().setString("recipeID", recipe.getName());
+                    ingredients.add(new PositionedStack(vstack, X_OFFSET + 79, 49));
+                }
+
+                Field flaskf = clazz.getDeclaredField("forceFlask");
+                Item flask = (Item) flaskf.get(null);
+                if (flask != null)
+                {
+                    int i = 0;
+                    for (Map.Entry<String, Float> element : recipe.getIngredients().entrySet())
+                    {
+                        int x = 8 + (i % 2) * 27;
+                        int y = 17 + (i / 2) * 27;
+                        ItemStack fstack = new ItemStack(flask);
+                        fstack.setTagCompound(new NBTTagCompound());
+                        fstack.setItemDamage(32 + AlchemyUtil.getElementByName(element.getKey()).getNumber());
+                        fstack.getTagCompound().setFloat("amount", element.getValue());
+                        ingredients.add(new PositionedStack(fstack, X_OFFSET + x, y));
+                        i++;
+                    }
+                }
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+        public PositionedStack getResult()
+        {
+            return result;
+        }
+
+        public List<PositionedStack> getIngredients()
+        {
+            return ingredients;
+        }
+
     }
 }

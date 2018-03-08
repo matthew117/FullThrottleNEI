@@ -17,12 +17,10 @@ public class NEIFullThrottleConfig implements IConfigureNEI
     @Override
     public void loadConfig()
     {
-//        AtelierCraftingHelperHandler atelierHelper = new AtelierCraftingHelperHandler();
-//        API.registerRecipeHandler(atelierHelper);
-//        API.registerUsageHandler(atelierHelper);
         AtelierCraftingRecipeHandler atelierCrafting = new AtelierCraftingRecipeHandler();
         API.registerRecipeHandler(atelierCrafting);
         API.registerUsageHandler(atelierCrafting);
+
         AtelierDecompositionRecipeHandler atelierDecomposition = new AtelierDecompositionRecipeHandler();
         API.registerRecipeHandler(atelierDecomposition);
         if (ConfigurationHandler.showNEIAtelierResearch)

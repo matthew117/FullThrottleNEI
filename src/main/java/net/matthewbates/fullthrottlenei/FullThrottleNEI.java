@@ -23,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import org.jetbrains.annotations.NotNull;
 import pa.api.FTAAPI;
 import pa.api.recipe.BasicRecipe;
 import pa.api.recipe.FreezeStack;
@@ -38,82 +39,17 @@ public class FullThrottleNEI
     public static final String MODID = "fullthrottlenei";
     public static final String VERSION = "1.7.10-0.0.8";
     public static final String NAME = "FullThrottle NEI";
-    public static JsonData jsonData;
-
     @Mod.Instance(FullThrottleNEI.MODID)
     public static FullThrottleNEI instance;
-
     @SidedProxy(clientSide = "net.matthewbates.fullthrottlenei.proxy.ClientProxy", serverSide = "net.matthewbates.fullthrottlenei.proxy.CommonProxy")
-    public static IProxy proxy;
-
+    private static IProxy proxy;
     public static SimpleNetworkWrapper packetHandler;
+    private static JsonData jsonData;
 
     //TODO: Graphite Furnace (ComputerCraft Support? storage?)
     //TODO: Cryogenic Liquefaction of Air (automated atelier)
     //TODO: Combine and Split Elements Atomically
     //TODO: Calculate elements on items by analyzing recipes
-
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        ConfigurationHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath(), "/FullThrottleNEI/fullthrottlenei.cfg"));
-        FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
-        MinecraftForge.EVENT_BUS.register(proxy);
-        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-        packetHandler.registerMessage(DragDropPacket.Handler.class, DragDropPacket.class, 0, Side.SERVER);
-        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-        if (ConfigurationHandler.allowJson)
-        {
-            File jsonFile = new File(event.getModConfigurationDirectory().getAbsolutePath(), "/FullThrottleNEI/fullthrottlenei.json");
-            Gson gson = new Gson();
-            Reader reader;
-            try
-            {
-                if (jsonFile.exists())
-                {
-                    reader = new InputStreamReader(new FileInputStream(jsonFile), "UTF-8");
-                    if (reader.ready())
-                        jsonData = gson.fromJson(reader, JsonData.class);
-                } else
-                {
-                    if (jsonFile.createNewFile())
-                        generateDefaultJsonFile(jsonFile);
-                }
-
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        proxy.init();
-    }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        // TODO: support for ore dictionary
-        // TODO: support for numeric ranges on meta values
-        // TODO: live editing of json file via commands/GUI (ProjectE?)
-        if (jsonData != null)
-        {
-            loadJsonElements();
-            loadJsonAtelierRecipes();
-            loadJsonGrindingRecipes();
-            loadJsonFreezingRecipes();
-        }
-//        AlchemyUtil.getRecommendedRecipes();
-    }
-
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event)
-    {
-        event.registerServerCommand(new JsonEditCommand());
-    }
 
     private static void loadJsonElements()
     {
@@ -155,7 +91,7 @@ public class FullThrottleNEI
 
             if (outputItemStack == null) continue;
 
-            HashMap<String, Float> elementInputs = new HashMap<String, Float>();
+            HashMap<String, Float> elementInputs = new HashMap<>();
             for (JsonMultiplierItem elementItem : elementSource.inputs.items)
             {
                 String[] elementItemComponents = elementItem.itemID.split(":");
@@ -251,7 +187,7 @@ public class FullThrottleNEI
 
             if (outputItemStack == null) continue;
 
-            ArrayList<ItemStack> research = new ArrayList<ItemStack>();
+            ArrayList<ItemStack> research = new ArrayList<>();
             for (String researchItem : atelierRecipe.research)
             {
                 String[] researchItemComponents = researchItem.split(":");
@@ -288,7 +224,7 @@ public class FullThrottleNEI
                 research.add(researchItemStack);
             }
 
-            HashMap<String, Float> elementInputs = new HashMap<String, Float>();
+            HashMap<String, Float> elementInputs = new HashMap<>();
             for (JsonMultiplierItem elementItem : atelierRecipe.inputs.items)
             {
                 String[] elementItemComponents = elementItem.itemID.split(":");
@@ -557,18 +493,75 @@ public class FullThrottleNEI
         }
     }
 
-    private static void generateDefaultJsonFile(File jsonFile)
+    private static void generateDefaultJsonFile(@NotNull File jsonFile)
     {
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFile)))
         {
-            FileWriter writer = new FileWriter(jsonFile);
-            BufferedWriter buffer = new BufferedWriter(writer);
-            buffer.write("{\"elements\": [],\"atelier\": [],\"grinding\": [],\"freezing\": []}");
-            buffer.close();
-            writer.close();
+            writer.write("{\"elements\": [],\"atelier\": [],\"grinding\": [],\"freezing\": []}");
         } catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event)
+    {
+        ConfigurationHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath(), "/FullThrottleNEI/fullthrottlenei.cfg"));
+        FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+        MinecraftForge.EVENT_BUS.register(proxy);
+        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
+        packetHandler.registerMessage(DragDropPacket.Handler.class, DragDropPacket.class, 0, Side.SERVER);
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+        if (ConfigurationHandler.allowJson)
+        {
+            File jsonFile = new File(event.getModConfigurationDirectory().getAbsolutePath(), "/FullThrottleNEI/fullthrottlenei.json");
+            try
+            {
+                if (jsonFile.createNewFile())
+                    generateDefaultJsonFile(jsonFile);
+                else
+                {
+                    try (Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "UTF-8"))
+                    {
+                        if (reader.ready())
+                        {
+                            Gson gson = new Gson();
+                            jsonData = gson.fromJson(reader, JsonData.class);
+                        }
+                    }
+                }
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event)
+    {
+        proxy.init();
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event)
+    {
+        // TODO: support for ore dictionary
+        // TODO: support for numeric ranges on meta values
+        // TODO: live editing of json file via commands/GUI (ProjectE?)
+        if (jsonData != null)
+        {
+            loadJsonElements();
+            loadJsonAtelierRecipes();
+            loadJsonGrindingRecipes();
+            loadJsonFreezingRecipes();
+        }
+    }
+
+    @EventHandler
+    public void serverStarting(FMLServerStartingEvent event)
+    {
+        event.registerServerCommand(new JsonEditCommand());
     }
 }

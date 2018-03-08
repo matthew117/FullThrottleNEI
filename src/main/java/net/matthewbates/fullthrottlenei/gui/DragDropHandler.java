@@ -50,6 +50,7 @@ public class DragDropHandler implements INEIGuiHandler
         y = y - ((ExtContainerGui) gui).getTop();
 
         int index = 0;
+        //noinspection unchecked
         for (Slot s : (List<Slot>) gui.inventorySlots.inventorySlots)
         {
             if (x >= s.xDisplayPosition - 1 && x <= s.xDisplayPosition + 16 && y >= s.yDisplayPosition - 1 && y <= s.yDisplayPosition + 16)

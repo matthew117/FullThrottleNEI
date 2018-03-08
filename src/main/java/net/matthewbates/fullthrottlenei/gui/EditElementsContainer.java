@@ -18,8 +18,8 @@ import java.util.Map;
  */
 class EditElementsContainer extends ExtContainer
 {
-    IInventory editedItem = new InventoryCrafting(this, 1, 1);
-    IInventory inventory;
+    final IInventory editedItem = new InventoryCrafting(this, 1, 1);
+    private final IInventory inventory;
 
     EditElementsContainer(InventoryPlayer playerInv)
     {
@@ -50,6 +50,12 @@ class EditElementsContainer extends ExtContainer
     public boolean canInteractWith(EntityPlayer player)
     {
         return true;
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotIndex)
+    {
+        return null;
     }
 
     @Override
@@ -93,12 +99,6 @@ class EditElementsContainer extends ExtContainer
                 this.inventory.setInventorySlotContents(i, null);
             }
         }
-    }
-
-    @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotIndex)
-    {
-        return null;
     }
 
 }

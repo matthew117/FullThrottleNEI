@@ -6,9 +6,9 @@ import net.minecraft.inventory.Container;
 /**
  * Created by Matthew on 04/05/2016.
  */
-public abstract class ExtContainerGui extends GuiContainer
+abstract class ExtContainerGui extends GuiContainer
 {
-    public ExtContainerGui(Container container)
+    ExtContainerGui(Container container)
     {
         super(container);
     }

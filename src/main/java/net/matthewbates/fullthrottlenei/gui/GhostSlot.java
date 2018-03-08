@@ -24,12 +24,6 @@ public class GhostSlot extends Slot
     }
 
     @Override
-    public boolean canTakeStack(EntityPlayer player)
-    {
-        return false;
-    }
-
-    @Override
     public boolean isItemValid(ItemStack stack)
     {
         return true;
@@ -39,5 +33,11 @@ public class GhostSlot extends Slot
     public int getSlotStackLimit()
     {
         return limit > 0 ? limit : Integer.MAX_VALUE;
+    }
+
+    @Override
+    public boolean canTakeStack(EntityPlayer player)
+    {
+        return false;
     }
 }

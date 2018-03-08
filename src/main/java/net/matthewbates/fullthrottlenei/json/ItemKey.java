@@ -5,16 +5,22 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Matthew on 15/04/2016.
  */
-public class ItemKey
+class ItemKey
 {
+    private final ItemStack stack;
     private int hashcode;
-    private ItemStack stack;
 
     public ItemKey(ItemStack stack)
     {
         this.stack = stack;
         if (stack != null)
             hashcode = (stack.getItem().hashCode() ^ stack.getItemDamage());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return hashcode;
     }
 
     @Override
@@ -27,12 +33,6 @@ public class ItemKey
 
         return hashcode == itemKey.hashcode;
 
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return hashcode;
     }
 
     public ItemStack getItemStack()

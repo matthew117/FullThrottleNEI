@@ -21,8 +21,8 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 class EditElementsGui extends ExtContainerGui
 {
-    EditElementsContainer container;
-    GuiTextField[] txtFields = new GuiTextField[8];
+    private final EditElementsContainer container;
+    private final GuiTextField[] txtFields = new GuiTextField[8];
     private int txtFieldInFocus = -1;
 
     EditElementsGui(EditElementsContainer container)
@@ -48,56 +48,9 @@ class EditElementsGui extends ExtContainerGui
             }
         }
         buttonList.clear();
+        //noinspection unchecked
         buttonList.add(new GuiButton(0, guiLeft + 185, guiTop + 100, 48, 20, "Save"));
     }
-
-    protected void keyTyped(char c, int keycode)
-    {
-        if (txtFieldInFocus >= 0 && txtFields[txtFieldInFocus].isFocused())
-        {
-            if ((((keycode >= 2 && keycode <= 11) || (keycode == 52 && !txtFields[txtFieldInFocus].getText().contains("."))) ||
-                    (keycode == 83 && !txtFields[txtFieldInFocus].getText().contains(".")) ||
-                    ((keycode >= 71 && keycode < 83) && keycode != 74 && keycode != 78) || keycode == 14) ||
-                    keycode == 203 || keycode == 205)
-            {
-                txtFields[txtFieldInFocus].textboxKeyTyped(c, keycode);
-            }
-            else if (keycode == 28)
-            {
-                txtFields[txtFieldInFocus].setFocused(false);
-                txtFieldInFocus = -1;
-            }
-            else if (keycode == 15)
-            {
-                txtFields[txtFieldInFocus].setFocused(false);
-                txtFieldInFocus = (txtFieldInFocus + 1) % 8;
-                txtFields[txtFieldInFocus].setFocused(true);
-            }
-        } else
-            super.keyTyped(c, keycode);
-    }
-
-    protected void mouseClicked(int x, int y, int mouseButton)
-    {
-        super.mouseClicked(x, y, mouseButton);
-        boolean clickedAny = false;
-        for (int i = 0; i < txtFields.length; i++)
-        {
-            GuiTextField txtField = txtFields[i];
-            if (x >= txtField.xPosition && x <= txtField.xPosition + txtField.width && y >= txtField.yPosition && y <= txtField.yPosition + txtField.height)
-            {
-                txtField.setFocused(true);
-                txtFieldInFocus = i;
-                clickedAny = true;
-            } else
-            {
-                txtField.setFocused(false);
-            }
-        }
-        if (!clickedAny)
-            txtFieldInFocus = -1;
-    }
-
 
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y)
@@ -132,6 +85,51 @@ class EditElementsGui extends ExtContainerGui
             if (txtField != null)
                 txtField.drawTextBox();
         }
+    }
+
+    protected void mouseClicked(int x, int y, int mouseButton)
+    {
+        super.mouseClicked(x, y, mouseButton);
+        boolean clickedAny = false;
+        for (int i = 0; i < txtFields.length; i++)
+        {
+            GuiTextField txtField = txtFields[i];
+            if (x >= txtField.xPosition && x <= txtField.xPosition + txtField.width && y >= txtField.yPosition && y <= txtField.yPosition + txtField.height)
+            {
+                txtField.setFocused(true);
+                txtFieldInFocus = i;
+                clickedAny = true;
+            } else
+            {
+                txtField.setFocused(false);
+            }
+        }
+        if (!clickedAny)
+            txtFieldInFocus = -1;
+    }
+
+    protected void keyTyped(char c, int keycode)
+    {
+        if (txtFieldInFocus >= 0 && txtFields[txtFieldInFocus].isFocused())
+        {
+            if ((((keycode >= 2 && keycode <= 11) || (keycode == 52 && !txtFields[txtFieldInFocus].getText().contains("."))) ||
+                    (keycode == 83 && !txtFields[txtFieldInFocus].getText().contains(".")) ||
+                    ((keycode >= 71 && keycode < 83) && keycode != 74 && keycode != 78) || keycode == 14) ||
+                    keycode == 203 || keycode == 205)
+            {
+                txtFields[txtFieldInFocus].textboxKeyTyped(c, keycode);
+            } else if (keycode == 28)
+            {
+                txtFields[txtFieldInFocus].setFocused(false);
+                txtFieldInFocus = -1;
+            } else if (keycode == 15)
+            {
+                txtFields[txtFieldInFocus].setFocused(false);
+                txtFieldInFocus = (txtFieldInFocus + 1) % 8;
+                txtFields[txtFieldInFocus].setFocused(true);
+            }
+        } else
+            super.keyTyped(c, keycode);
     }
 
 

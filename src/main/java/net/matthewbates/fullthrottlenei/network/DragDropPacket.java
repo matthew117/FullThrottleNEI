@@ -62,11 +62,11 @@ public class DragDropPacket implements IMessage
         public IMessage onMessage(DragDropPacket message, MessageContext ctx)
         {
             EntityPlayer player = ctx.getServerHandler().playerEntity;
-            if(player.openContainer instanceof ExtContainer && player.openContainer.windowId == message.windowID && message.slot >= 0 && message.slot < player.openContainer.inventorySlots.size())
+            if (player.openContainer instanceof ExtContainer && player.openContainer.windowId == message.windowID && message.slot >= 0 && message.slot < player.openContainer.inventorySlots.size())
             {
-                Slot slot = (Slot)player.openContainer.inventorySlots.get(message.slot);
-                if(slot instanceof GhostSlot)
-                    ((ExtContainer)player.openContainer).dropItem(message.slot, message.button, message.modifiers, message.item);
+                Slot slot = (Slot) player.openContainer.inventorySlots.get(message.slot);
+                if (slot instanceof GhostSlot)
+                    ((ExtContainer) player.openContainer).dropItem(message.slot, message.button, message.modifiers, message.item);
             }
             return null;
         }

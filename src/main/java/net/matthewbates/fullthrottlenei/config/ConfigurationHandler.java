@@ -27,8 +27,16 @@ public class ConfigurationHandler
 
     private static void loadConfiguration()
     {
-        allowJson = configuration.getBoolean("Allow JSON", "Features", true, "Allows adding elements, atelier recipes, grinding recipes and freezing recipes via the json file in the config folder.");
-        showNEIAtelierResearch = configuration.getBoolean("Show Atelier Research in NEI", "Features", true, "Shows items that can be used to unlock atelier recipes in NEI.");
+        allowJson = configuration
+                .getBoolean("Allow JSON",
+                            "Features",
+                            true,
+                            "Allows adding elements, atelier recipes, grinding recipes and freezing recipes via the json file in the config folder.");
+        showNEIAtelierResearch = configuration
+                .getBoolean("Show Atelier Research in NEI",
+                            "Features",
+                            true,
+                            "Shows items that can be used to unlock atelier recipes in NEI.");
 
         if (configuration.hasChanged())
         {

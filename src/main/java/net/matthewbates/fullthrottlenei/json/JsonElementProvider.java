@@ -14,7 +14,7 @@ public class JsonElementProvider implements IElementProvider
 
     public JsonElementProvider()
     {
-        cachedElements = new HashMap<ItemKey, HashMap<String, Float>>();
+        cachedElements = new HashMap<>();
     }
 
     public JsonElementProvider(HashMap<ItemKey, HashMap<String, Float>> elements)
@@ -22,7 +22,7 @@ public class JsonElementProvider implements IElementProvider
         if (elements != null)
             cachedElements = elements;
         else
-            cachedElements = new HashMap<ItemKey, HashMap<String, Float>>();
+            cachedElements = new HashMap<>();
     }
 
     public void addElements(ItemStack stack, HashMap<String, Float> elements)
@@ -35,8 +35,8 @@ public class JsonElementProvider implements IElementProvider
     {
         if (stack.getItem().isItemTool(stack) && stack.getItemDamage() > 0)
         {
-            float percent = 1.0f - (float)stack.getItemDamage() / (float)stack.getMaxDamage();
-            HashMap<String, Float> proportionalElements = new HashMap<String, Float>();
+            float percent = 1.0f - (float) stack.getItemDamage() / (float) stack.getMaxDamage();
+            HashMap<String, Float> proportionalElements = new HashMap<>();
             ItemStack baseItemStack = new ItemStack(stack.getItem());
             for (HashMap.Entry<String, Float> p : cachedElements.get(new ItemKey(baseItemStack)).entrySet())
             {

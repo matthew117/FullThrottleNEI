@@ -21,50 +21,55 @@ import java.util.List;
 /**
  * Created by Matthew on 30/03/2016.
  */
+@SuppressWarnings("unchecked")
 public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler
 {
     private static final int X_OFFSET = 3;
 
-    public class CachedAtelierDiscovery extends CachedRecipe
+    private String getRecipeID()
     {
-        public CachedAtelierDiscovery(BasicRecipe recipe, ItemStack research, ItemStack result)
+        return FullThrottleNEI.MODID + ":" + "atelierDiscovery";
+    }
+
+    @Override
+    public String getRecipeName()
+    {
+        return "Atelier Research";
+    }
+
+    @Override
+    public void loadTransferRects()
+    {
+        transferRects.add(new RecipeTransferRect(new Rectangle(X_OFFSET + 58, 28, 44, 8), getRecipeID()));
+    }
+
+    @Override
+    public void loadCraftingRecipes(String outputId, Object... results)
+    {
+        if (outputId.equals(getRecipeID()) && (getClass() == AtelierDiscoveryRecipeHandler.class))
         {
-            research.stackSize = 1;
-            this.research = new PositionedStack(research, X_OFFSET + 36, 24);
-            result.stackSize = 1;
-            try
+            List<BasicRecipe> recipes = AlchemyUtil.getResearch();
+            for (BasicRecipe recipe : recipes)
             {
-                Field vellumf = Class.forName("pa.data.PAItems").getDeclaredField("vellum");
-                vellumf.setAccessible(true);
-                Item vellum = (Item) vellumf.get(null);
-                if (vellum != null)
+                try
                 {
-                    ItemStack vstack = new ItemStack(vellum);
-                    vstack.setTagCompound(new NBTTagCompound());
-                    vstack.getTagCompound().setString("recipeID", recipe.getName());
-                    this.result = new PositionedStack(vstack, X_OFFSET + 108, 24);
+                    Field chances = recipe.getClass().getDeclaredField("chances");
+                    chances.setAccessible(true);
+                    ArrayList<ItemStack> research = (ArrayList<ItemStack>) chances.get(recipe);
+                    for (ItemStack stack : research)
+                    {
+                        arecipes.add(new CachedAtelierDiscovery(recipe, stack.copy(), recipe.getDefaultItem()));
+                    }
+
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
-
-            } catch (Exception e)
-            {
-                this.result = new PositionedStack(result, X_OFFSET + 108, 24);
-                e.printStackTrace();
             }
-
-        }
-
-        public PositionedStack getIngredient()
+        } else
         {
-            return research;
+            super.loadCraftingRecipes(outputId, results);
         }
-
-        public PositionedStack getResult()
-        {
-            return result;
-        }
-
-        PositionedStack research;
-        PositionedStack result;
     }
 
     @Override
@@ -113,35 +118,6 @@ public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler
     }
 
     @Override
-    public void loadCraftingRecipes(String outputId, Object... results)
-    {
-        if (outputId.equals(getRecipeID()) && (getClass() == AtelierDiscoveryRecipeHandler.class))
-        {
-            List<BasicRecipe> recipes = AlchemyUtil.getResearch();
-            for (BasicRecipe recipe : recipes)
-            {
-                try
-                {
-                    Field chances = recipe.getClass().getDeclaredField("chances");
-                    chances.setAccessible(true);
-                    ArrayList<ItemStack> research = (ArrayList<ItemStack>) chances.get(recipe);
-                    for (ItemStack stack : research)
-                    {
-                        arecipes.add(new CachedAtelierDiscovery(recipe, stack.copy(), recipe.getDefaultItem()));
-                    }
-
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        } else
-        {
-            super.loadCraftingRecipes(outputId, results);
-        }
-    }
-
-    @Override
     public void loadUsageRecipes(ItemStack ingredient)
     {
         List<BasicRecipe> recipes = AlchemyUtil.getResearch();
@@ -167,21 +143,16 @@ public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler
         }
     }
 
-    private String getRecipeID()
-    {
-        return FullThrottleNEI.MODID + ":" + "atelierDiscovery";
-    }
-
-    @Override
-    public String getRecipeName()
-    {
-        return "Atelier Research";
-    }
-
     @Override
     public String getGuiTexture()
     {
         return (new ResourceLocation(FullThrottleNEI.MODID, "textures/gui/neiAtelierDiscovery.png")).toString();
+    }
+
+    @Override
+    public void drawExtras(int recipe)
+    {
+        drawProgressBar(X_OFFSET + 60, 30, 160, 0, 40, 4, 48, 0);
     }
 
     @Override
@@ -192,16 +163,46 @@ public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler
         GuiDraw.drawTexturedModalRect(X_OFFSET, 0, 0, 0, 160, 65);
     }
 
-    @Override
-    public void drawExtras(int recipe)
+    class CachedAtelierDiscovery extends CachedRecipe
     {
-        drawProgressBar(X_OFFSET + 60, 30, 160, 0, 40, 4, 48, 0);
-    }
+        final PositionedStack research;
+        PositionedStack result;
 
-    @Override
-    public void loadTransferRects()
-    {
-        transferRects.add(new RecipeTransferRect(new Rectangle(X_OFFSET + 58, 28, 44, 8), getRecipeID()));
+        CachedAtelierDiscovery(BasicRecipe recipe, ItemStack research, ItemStack result)
+        {
+            research.stackSize = 1;
+            this.research = new PositionedStack(research, X_OFFSET + 36, 24);
+            result.stackSize = 1;
+            try
+            {
+                Field vellumf = Class.forName("pa.data.PAItems").getDeclaredField("vellum");
+                vellumf.setAccessible(true);
+                Item vellum = (Item) vellumf.get(null);
+                if (vellum != null)
+                {
+                    ItemStack vstack = new ItemStack(vellum);
+                    vstack.setTagCompound(new NBTTagCompound());
+                    vstack.getTagCompound().setString("recipeID", recipe.getName());
+                    this.result = new PositionedStack(vstack, X_OFFSET + 108, 24);
+                }
+
+            } catch (Exception e)
+            {
+                this.result = new PositionedStack(result, X_OFFSET + 108, 24);
+                e.printStackTrace();
+            }
+
+        }
+
+        public PositionedStack getResult()
+        {
+            return result;
+        }
+
+        public PositionedStack getIngredient()
+        {
+            return research;
+        }
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Matthew on 30/04/2016.
  */
-public class JsonEditCommand extends CommandBase
+class JsonEditCommand extends CommandBase
 {
     @Override
     public String getCommandName()
@@ -25,22 +25,22 @@ public class JsonEditCommand extends CommandBase
     }
 
     @Override
+    public void processCommand(ICommandSender sender, String[] args)
+    {
+        if (sender instanceof EntityPlayer)
+        {
+            ((EntityPlayer) sender).openGui(FullThrottleNEI.instance, 0, sender.getEntityWorld(), 0, 0, 0);
+        }
+    }
+
+    @Override
     public List addTabCompletionOptions(ICommandSender sender, String[] args)
     {
-        List<String> options = new ArrayList<String>();
+        List<String> options = new ArrayList<>();
         options.add("elements");
         options.add("atelier");
         options.add("grinding");
         options.add("freezing");
         return options;
-    }
-
-    @Override
-    public void processCommand(ICommandSender sender, String[] args)
-    {
-        if (sender instanceof EntityPlayer)
-        {
-            ((EntityPlayer)sender).openGui(FullThrottleNEI.instance, 0, sender.getEntityWorld(), 0, 0, 0);
-        }
     }
 }

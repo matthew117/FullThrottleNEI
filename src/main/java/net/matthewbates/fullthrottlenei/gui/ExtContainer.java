@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
  */
 public abstract class ExtContainer extends Container
 {
-    protected void bindPlayerInventory(InventoryPlayer inventoryPlayer, int x, int y)
+    void bindPlayerInventory(InventoryPlayer inventoryPlayer, int x, int y)
     {
         for (int j = 0; j < 3; j++)
         {
@@ -27,21 +27,6 @@ public abstract class ExtContainer extends Container
             this.addSlotToContainer(new Slot(inventoryPlayer, i, x + i * 18, y + 58));
         }
 
-    }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer player)
-    {
-        return true;
-    }
-
-    @Override
-    public boolean canDragIntoSlot(Slot slot)
-    {
-        if (slot instanceof GhostSlot)
-            return false;
-        else
-            return super.canDragIntoSlot(slot);
     }
 
     private void handleFakeSlot(GhostSlot slot, int mouseButton, int modifier, ItemStack held)
@@ -79,8 +64,7 @@ public abstract class ExtContainer extends Container
                         }
                     }
                 }
-            }
-            else
+            } else
             {
                 ItemStack stackInSlot = slot.getStack();
                 if (mouseButton == 0) // left click
@@ -115,6 +99,18 @@ public abstract class ExtContainer extends Container
         }
 
         return super.slotClick(slotIndex, mouseButton, modifier, player);
+    }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer player)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean canDragIntoSlot(Slot slot)
+    {
+        return !(slot instanceof GhostSlot) && super.canDragIntoSlot(slot);
     }
 
     public void dropItem(int slotIndex, int mouseButton, int modifier, ItemStack item)
