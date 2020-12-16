@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Set;
 
-class GuiFactory implements IModGuiFactory
+public class GuiFactory implements IModGuiFactory
 {
     public void initialize(Minecraft minecraft)
     {
