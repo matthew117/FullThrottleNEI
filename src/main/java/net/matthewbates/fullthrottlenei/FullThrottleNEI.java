@@ -29,6 +29,7 @@ import pa.api.recipe.FreezeStack;
 import pa.api.recipe.GrindStack;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -521,7 +522,7 @@ public class FullThrottleNEI
                     generateDefaultJsonFile(jsonFile);
                 else
                 {
-                    try (Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "UTF-8"))
+                    try (Reader reader = new InputStreamReader(new FileInputStream(jsonFile), StandardCharsets.UTF_8))
                     {
                         if (reader.ready())
                         {

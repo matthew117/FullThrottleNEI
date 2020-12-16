@@ -7,9 +7,9 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["matthew_117"],
+  "authorList": ["matthew117"],
   "credits": "bluedart for all of his work on DartCraft and FTA.",
-  "logoFile": "",
+  "logoFile": "assets/fullthrottlenei/textures/logo/logo.png",
   "screenshots": [],
   "dependencies": ["NotEnoughItems","Project_Alchemy"]
 }
