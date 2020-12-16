@@ -4,8 +4,6 @@ import codechicken.nei.ItemList;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import pa.api.alchemy.Element;
 import pa.api.recipe.BasicRecipe;
 
@@ -22,7 +20,7 @@ public class AlchemyUtil
     private static final Map<BasicRecipe, ArrayList<ItemStack>> recommendedRecipes = new HashMap<>();
     private static final Multimap<String, ItemStack> recommendedItems = LinkedListMultimap.create();
 
-    public static HashMap<String, Float> getElements(@NotNull ItemStack stack)
+    public static HashMap<String, Float> getElements(ItemStack stack)
     {
         try
         {
@@ -37,8 +35,7 @@ public class AlchemyUtil
         }
     }
 
-    @NotNull
-    public static SortedMap<String, Float> getElementsSortedByAtomicNumber(@NotNull ItemStack stack)
+    public static SortedMap<String, Float> getElementsSortedByAtomicNumber(ItemStack stack)
     {
         HashMap<String, Float> elements = getElements(stack);
         SortedMap<String, Float> sortedElements = new TreeMap<>(
@@ -47,7 +44,7 @@ public class AlchemyUtil
         return sortedElements;
     }
 
-    public static SortedMap<String, Float> getElementsSortedBySymbol(@NotNull ItemStack stack)
+    public static SortedMap<String, Float> getElementsSortedBySymbol(ItemStack stack)
     {
         HashMap<String, Float> elements = getElements(stack);
         SortedMap<String, Float> sortedElements = new TreeMap<>(Comparator.comparing(a -> getElementByName(a).getSymbol()));
@@ -130,7 +127,6 @@ public class AlchemyUtil
         }
     }
 
-    @Nullable
     public static Element getElementByName(String name)
     {
         try

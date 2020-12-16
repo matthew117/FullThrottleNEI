@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://files.minecraftforge.net/maven"
         }
         maven {
             name = "sonatype"
@@ -17,8 +17,8 @@ buildscript {
 
 repositories {
     maven {
-        name 'chickenbones'
-        url "http://chickenbones.net/maven/"
+        name = 'chickenbones'
+        url = "https://chickenbones.net/maven/"
     }
 }
 
@@ -34,7 +34,7 @@ idea {
 }
 
 version = "1.7.10-0.0.8"
-group= "net.matthewbates.fullthrottlenei"
+group = "net.matthewbates.fullthrottlenei"
 archivesBaseName = "FullThrottleNEI"
 
 minecraft {

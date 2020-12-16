@@ -23,7 +23,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import org.jetbrains.annotations.NotNull;
 import pa.api.FTAAPI;
 import pa.api.recipe.BasicRecipe;
 import pa.api.recipe.FreezeStack;
@@ -493,7 +492,7 @@ public class FullThrottleNEI
         }
     }
 
-    private static void generateDefaultJsonFile(@NotNull File jsonFile)
+    private static void generateDefaultJsonFile(File jsonFile)
     {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFile)))
         {

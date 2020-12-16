@@ -2,8 +2,6 @@ package net.matthewbates.fullthrottlenei;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.text.NumberFormat;
 import java.util.Collection;
@@ -14,23 +12,20 @@ import java.util.Comparator;
  */
 public class Utils
 {
-    @Contract(pure = true)
-    public static float sum(@NotNull Collection<Float> xs)
+    public static float sum(Collection<Float> xs)
     {
         float sum = 0.0f;
         for (float x : xs) sum += x;
         return sum;
     }
 
-    @Contract(pure = true)
-    public static float min(@NotNull Collection<Float> xs)
+    public static float min(Collection<Float> xs)
     {
         float min = Float.POSITIVE_INFINITY;
         for (float x : xs) if (x < min) min = x;
         return min;
     }
 
-    @NotNull
     public static String getElementAmountFormatted(float amount)
     {
         NumberFormat format = NumberFormat.getInstance();
