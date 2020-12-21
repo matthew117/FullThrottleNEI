@@ -15,6 +15,11 @@ buildscript {
     }
 }
 
+plugins {
+    id "de.undercouch.download" version "4.1.1"
+    id "com.dorongold.task-tree" version "1.5"
+}
+
 repositories {
     maven {
         name = 'chickenbones'
@@ -51,6 +56,31 @@ dependencies {
     compile "codechicken:NotEnoughItems:1.7.10-1.0.5.118:dev"
 }
 
+// Download the FTA jar and place it in /mods
+task downloadFTA(type: Download) {
+    src 'https://media.forgecdn.net/files/2307/512/FullThrottle_Alchemist-1.7.10-1.0.18a.jar'
+    dest 'mods'
+    overwrite false
+}
+
+// Verify that the FTA jar that we download hasn't been tampered with by
+// matching the checksum against the one on CurseForge
+task verifyFTA(type: Verify, dependsOn: downloadFTA) {
+    src new File('mods', 'FullThrottle_Alchemist-1.7.10-1.0.18a.jar')
+    algorithm 'MD5'
+    checksum '94194c352d053acc28d46eaf1509079f'
+}
+
+// Simulates the player placing FTA in the mods directory before running the
+// game. We actually place the jar into a top-level /mods folder an make it a
+// compile time dependency rather than putting it in /run/mods so that we can
+// set breakpoints in FTA code
+makeStart.dependsOn "verifyFTA"
+
+dependencies {
+    compile fileTree("mods")
+}
+
 jar {
     manifest {
         attributes 'FMLCorePlugin': 'net.matthewbates.fullthrottlenei.asm.FullThrottleNEICorePlugin'
@@ -72,7 +102,7 @@ processResources
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
-    // copy everything else, thats not the mcmod.info
+    // copy everything else, that's not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
