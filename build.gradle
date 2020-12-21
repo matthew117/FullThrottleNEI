@@ -58,6 +58,9 @@ dependencies {
 
 // Download the FTA jar and place it in /mods
 task downloadFTA(type: Download) {
+    doFirst {
+        mkdir "mods"
+    }
     src 'https://media.forgecdn.net/files/2307/512/FullThrottle_Alchemist-1.7.10-1.0.18a.jar'
     dest 'mods'
     overwrite false
