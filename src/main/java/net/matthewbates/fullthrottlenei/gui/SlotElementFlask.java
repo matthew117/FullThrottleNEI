@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import java.lang.reflect.Field;
 
 /**
- * Created by Matthew on 01/05/2016.
+ * Created by Matthew Bates on 01/05/2016.
  */
 class SlotElementFlask extends SlotDummy
 {

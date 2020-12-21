@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 /**
- * Created by Matthew on 30/04/2016.
+ * Created by Matthew Bates on 30/04/2016.
  */
 public class GuiHandler implements IGuiHandler
 {

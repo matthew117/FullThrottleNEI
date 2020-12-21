@@ -4,7 +4,7 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.*;
 
 /**
- * Created by Matthew on 27/04/2016.
+ * Created by Matthew Bates on 27/04/2016.
  */
 public class FixGrindingBonusTransformer implements IClassTransformer
 {

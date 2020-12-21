@@ -1,7 +1,7 @@
 package net.matthewbates.fullthrottlenei.proxy;
 
 /**
- * Created by Matthew on 16/04/2016.
+ * Created by Matthew Bates on 16/04/2016.
  */
 public interface IProxy
 {

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Matthew on 30/03/2016.
+ * Created by Matthew Bates on 30/03/2016.
  */
 @SuppressWarnings("unchecked")
 public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler

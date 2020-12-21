@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 import java.util.Map;
 
 /**
- * Created by Matthew on 29/04/2016.
+ * Created by Matthew Bates on 29/04/2016.
  */
 
 // VM args: -Dfml.coreMods.load=net.matthewbates.fullthrottlenei.asm.FullThrottleNEICorePlugin
@@ -47,7 +47,7 @@ public class FullThrottleNEICorePlugin implements IFMLLoadingPlugin
      * main thread, to perform any additional setup this coremod may require. It will be
      * run <strong>prior</strong> to Minecraft starting, so it CANNOT operate on minecraft
      * itself. The game will deliberately crash if this code is detected to trigger a
-     * minecraft class loading (TODO: implement crash ;) )
+     * minecraft class loading.
      */
     @Override
     public String getSetupClass()

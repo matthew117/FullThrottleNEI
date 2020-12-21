@@ -3,7 +3,7 @@ package net.matthewbates.fullthrottlenei.json;
 import net.minecraft.item.ItemStack;
 
 /**
- * Created by Matthew on 15/04/2016.
+ * Created by Matthew Bates on 15/04/2016.
  */
 class ItemKey
 {

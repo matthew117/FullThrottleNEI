@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.Map;
 
 /**
- * Created by Matthew on 29/04/2016.
+ * Created by Matthew Bates on 29/04/2016.
  */
 
 @SideOnly(Side.CLIENT)

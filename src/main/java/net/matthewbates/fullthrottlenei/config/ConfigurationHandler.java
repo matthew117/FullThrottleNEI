@@ -8,7 +8,7 @@ import net.minecraftforge.common.config.Configuration;
 import java.io.File;
 
 /**
- * Created by Matthew on 16/04/2016.
+ * Created by Matthew Bates on 16/04/2016.
  */
 public class ConfigurationHandler
 {

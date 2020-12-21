@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Matthew on 17/04/2016.
+ * Created by Matthew Bates on 17/04/2016.
  */
 public class AtelierCraftingRecipeHandler extends TemplateRecipeHandler
 {

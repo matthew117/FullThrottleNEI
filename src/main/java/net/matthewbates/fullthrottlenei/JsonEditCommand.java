@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Matthew on 30/04/2016.
+ * Created by Matthew Bates on 30/04/2016.
  */
 class JsonEditCommand extends CommandBase
 {

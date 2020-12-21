@@ -4,7 +4,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 
 /**
- * Created by Matthew on 04/05/2016.
+ * Created by Matthew Bates on 04/05/2016.
  */
 abstract class ExtContainerGui extends GuiContainer
 {

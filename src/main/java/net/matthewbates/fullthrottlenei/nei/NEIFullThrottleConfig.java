@@ -9,7 +9,7 @@ import net.matthewbates.fullthrottlenei.config.ConfigurationHandler;
 import net.matthewbates.fullthrottlenei.gui.DragDropHandler;
 
 /**
- * Created by Matthew on 30/03/2016.
+ * Created by Matthew Bates on 30/03/2016.
  */
 @SideOnly(Side.CLIENT)
 public class NEIFullThrottleConfig implements IConfigureNEI
@@ -30,6 +30,8 @@ public class NEIFullThrottleConfig implements IConfigureNEI
             API.registerUsageHandler(atelierDiscovery);
         }
         API.registerUsageHandler(atelierDecomposition);
+
+        // For dragging NEI items into ghost slots in the edit recipes GUI
         API.registerNEIGuiHandler(new DragDropHandler());
 
         //TODO: element consumer efficiency when right-click on elements "Element Consumers"

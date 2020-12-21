@@ -1,7 +1,7 @@
 package net.matthewbates.fullthrottlenei.json;
 
 /**
- * Created by Matthew on 15/04/2016.
+ * Created by Matthew Bates on 15/04/2016.
  */
 public class JsonItem
 {

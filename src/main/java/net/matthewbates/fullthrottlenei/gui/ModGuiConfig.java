@@ -7,17 +7,19 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 
 /**
- * Created by Matthew on 16/04/2016.
+ * Created by Matthew Bates on 16/04/2016.
  */
 public class ModGuiConfig extends GuiConfig
 {
-    public ModGuiConfig(GuiScreen guiScreen)
-    {
-        //noinspection unchecked
-        super(guiScreen,
-              new ConfigElement(ConfigurationHandler.configuration.getCategory("features")).getChildElements(),
-              FullThrottleNEI.MODID, false, false,
-              GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
-        //TODO: Check whether world needs reload or not
-    }
+  public ModGuiConfig(GuiScreen guiScreen)
+  {
+    //noinspection unchecked
+    super(guiScreen,
+            new ConfigElement(ConfigurationHandler.configuration.getCategory("features")).getChildElements(),
+            FullThrottleNEI.MODID,
+            false,
+            false,
+            GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
+    //TODO: Check whether world needs reload or not
+  }
 }

@@ -4,7 +4,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 /**
- * Created by Matthew on 05/05/2016.
+ * Created by Matthew Bates on 05/05/2016.
  */
 public class ElementFlaskGhostSlot extends GhostSlot
 {

@@ -49,7 +49,6 @@ public class FullThrottleNEI
     //TODO: Graphite Furnace (ComputerCraft Support? storage?)
     //TODO: Cryogenic Liquefaction of Air (automated atelier)
     //TODO: Combine and Split Elements Atomically
-    //TODO: Calculate elements on items by analyzing recipes
 
     private static void loadJsonElements()
     {

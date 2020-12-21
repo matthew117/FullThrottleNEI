@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 /**
- * Created by Matthew on 03/05/2016.
+ * Created by Matthew Bates on 03/05/2016.
  */
 public class GhostSlot extends Slot
 {
