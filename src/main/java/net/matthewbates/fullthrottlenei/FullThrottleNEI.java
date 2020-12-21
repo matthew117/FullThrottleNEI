@@ -1,7 +1,9 @@
 package net.matthewbates.fullthrottlenei;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -18,11 +20,13 @@ import net.matthewbates.fullthrottlenei.gui.GuiHandler;
 import net.matthewbates.fullthrottlenei.integration.AlchemyUtil;
 import net.matthewbates.fullthrottlenei.json.*;
 import net.matthewbates.fullthrottlenei.network.DragDropPacket;
+import net.matthewbates.fullthrottlenei.network.PacketTypes;
 import net.matthewbates.fullthrottlenei.proxy.IProxy;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import org.apache.logging.log4j.Level;
 import pa.api.FTAAPI;
 import pa.api.recipe.BasicRecipe;
 import pa.api.recipe.FreezeStack;
@@ -33,16 +37,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Mod(modid = FullThrottleNEI.MODID, name = FullThrottleNEI.NAME, version = FullThrottleNEI.VERSION, dependencies = "required-after:Project_Alchemy;required-after:NotEnoughItems", guiFactory = "net.matthewbates.fullthrottlenei.gui.GuiFactory")
+@Mod(modid = FullThrottleNEI.MOD_ID, name = FullThrottleNEI.NAME, version = FullThrottleNEI.VERSION, dependencies = "required-after:Project_Alchemy;required-after:NotEnoughItems", guiFactory = "net.matthewbates.fullthrottlenei.gui.GuiFactory")
 public class FullThrottleNEI
 {
-    public static final String MODID = "fullthrottlenei";
+    public static final String MOD_ID = "fullthrottlenei";
     public static final String VERSION = "1.7.10-0.0.8";
     public static final String NAME = "FullThrottle NEI";
-    @Mod.Instance(FullThrottleNEI.MODID)
+
+    @Mod.Instance(FullThrottleNEI.MOD_ID)
     public static FullThrottleNEI instance;
+
     @SidedProxy(clientSide = "net.matthewbates.fullthrottlenei.proxy.ClientProxy", serverSide = "net.matthewbates.fullthrottlenei.proxy.CommonProxy")
     private static IProxy proxy;
+
     public static SimpleNetworkWrapper packetHandler;
     private static JsonData jsonData;
 
@@ -506,12 +513,27 @@ public class FullThrottleNEI
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        // Create a static instance of the mod configuration file
         ConfigurationHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath(), "/FullThrottleNEI/fullthrottlenei.cfg"));
+        // Watch the file for updates and update any held config
+        // This is the FML message bus (Forge Mod Loader)
         FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+
+        // Register our proxy handler with the Forge message bus
         MinecraftForge.EVENT_BUS.register(proxy);
-        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-        packetHandler.registerMessage(DragDropPacket.Handler.class, DragDropPacket.class, 0, Side.SERVER);
+
+        // Register a network channel for this mod
+        // The SimpleNetworkWrapper created by newSimpleChannel hides the full complexity of io.netty
+        // and assumes that each packet type (class that implements IMessage) has a specify handler for said type.
+        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
+        // Registers a handler for a specific message type (ensure the each new type has an unique discriminator byte)
+        // Register a handler for populating GhostItem slots by dragging items from NEI
+        packetHandler.registerMessage(DragDropPacket.Handler.class, DragDropPacket.class, PacketTypes.DragDrop, Side.SERVER);
+
+        // Register a handler for open GUI packets from our mod
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
+        // If the use of JSON files is permitted by the main mod config file then attempt to read or create JSON config
         if (ConfigurationHandler.allowJson)
         {
             File jsonFile = new File(event.getModConfigurationDirectory().getAbsolutePath(), "/FullThrottleNEI/fullthrottlenei.json");
@@ -529,10 +551,14 @@ public class FullThrottleNEI
                             jsonData = gson.fromJson(reader, JsonData.class);
                         }
                     }
+                    catch (JsonParseException e)
+                    {
+                        FMLLog.log(Level.ERROR, e, "JSON configuration file [%s] is malformed. Please check the CurseForge page for an appropriate JSON schema.", jsonFile.getPath());
+                    }
                 }
             } catch (IOException e)
             {
-                e.printStackTrace();
+                FMLLog.log(Level.ERROR, e, "Unable to read/write JSON configuration file [%s].", jsonFile.getPath());
             }
         }
     }

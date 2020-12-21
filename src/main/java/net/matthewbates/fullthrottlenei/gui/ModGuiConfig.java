@@ -11,15 +11,15 @@ import net.minecraftforge.common.config.ConfigElement;
  */
 public class ModGuiConfig extends GuiConfig
 {
-  public ModGuiConfig(GuiScreen guiScreen)
-  {
-    //noinspection unchecked
-    super(guiScreen,
-            new ConfigElement(ConfigurationHandler.configuration.getCategory("features")).getChildElements(),
-            FullThrottleNEI.MODID,
-            false,
-            false,
-            GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
-    //TODO: Check whether world needs reload or not
-  }
+    public ModGuiConfig(GuiScreen guiScreen)
+    {
+        //noinspection unchecked
+        super(guiScreen,
+              new ConfigElement(ConfigurationHandler.configuration.getCategory("features")).getChildElements(),
+              FullThrottleNEI.MOD_ID,
+              false,
+              false,
+              GuiConfig.getAbridgedConfigPath(ConfigurationHandler.configuration.toString()));
+        //TODO: Check whether world needs reload or not
+    }
 }

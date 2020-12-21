@@ -1,5 +1,6 @@
 package net.matthewbates.fullthrottlenei;
 
+import net.matthewbates.fullthrottlenei.gui.GuiTypes;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +30,7 @@ class JsonEditCommand extends CommandBase
     {
         if (sender instanceof EntityPlayer)
         {
-            ((EntityPlayer) sender).openGui(FullThrottleNEI.instance, 0, sender.getEntityWorld(), 0, 0, 0);
+            ((EntityPlayer) sender).openGui(FullThrottleNEI.instance, GuiTypes.EDIT_ELEMENTS, sender.getEntityWorld(), 0, 0, 0);
         }
     }
 

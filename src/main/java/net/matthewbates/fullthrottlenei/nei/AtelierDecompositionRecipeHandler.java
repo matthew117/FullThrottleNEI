@@ -28,7 +28,7 @@ public class AtelierDecompositionRecipeHandler extends TemplateRecipeHandler
 
     private String getRecipeID()
     {
-        return FullThrottleNEI.MODID + ":" + "atelierDecomposition";
+        return FullThrottleNEI.MOD_ID + ":" + "atelierDecomposition";
     }
 
     @Override
@@ -117,7 +117,7 @@ public class AtelierDecompositionRecipeHandler extends TemplateRecipeHandler
     @Override
     public String getGuiTexture()
     {
-        return (new ResourceLocation(FullThrottleNEI.MODID, "textures/gui/neiAtelierDecomposition.png")).toString();
+        return (new ResourceLocation(FullThrottleNEI.MOD_ID, "textures/gui/neiAtelierDecomposition.png")).toString();
     }
 
     @Override

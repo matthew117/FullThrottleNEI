@@ -28,7 +28,7 @@ public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler
 
     private String getRecipeID()
     {
-        return FullThrottleNEI.MODID + ":" + "atelierDiscovery";
+        return FullThrottleNEI.MOD_ID + ":" + "atelierDiscovery";
     }
 
     @Override
@@ -146,7 +146,7 @@ public class AtelierDiscoveryRecipeHandler extends TemplateRecipeHandler
     @Override
     public String getGuiTexture()
     {
-        return (new ResourceLocation(FullThrottleNEI.MODID, "textures/gui/neiAtelierDiscovery.png")).toString();
+        return (new ResourceLocation(FullThrottleNEI.MOD_ID, "textures/gui/neiAtelierDiscovery.png")).toString();
     }
 
     @Override

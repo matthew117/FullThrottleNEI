@@ -14,7 +14,7 @@ public class GuiHandler implements IGuiHandler
     {
         switch (ID)
         {
-            case 0:
+            case GuiTypes.EDIT_ELEMENTS:
                 return new EditElementsContainer(player.inventory);
         }
 
@@ -26,7 +26,7 @@ public class GuiHandler implements IGuiHandler
     {
         switch (ID)
         {
-            case 0:
+            case GuiTypes.EDIT_ELEMENTS:
                 return new EditElementsGui(new EditElementsContainer(player.inventory));
         }
 

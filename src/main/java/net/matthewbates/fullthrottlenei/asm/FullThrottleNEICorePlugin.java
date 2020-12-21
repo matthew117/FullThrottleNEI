@@ -23,7 +23,7 @@ public class FullThrottleNEICorePlugin implements IFMLLoadingPlugin
     @Override
     public String[] getASMTransformerClass()
     {
-        return new String[]{FixGrindingBonusTransformer.class.getName()};
+        return new String[]{ FixGrindingBonusTransformer.class.getName() };
     }
 
     /**

@@ -62,7 +62,7 @@ class EditElementsGui extends ExtContainerGui
     protected void drawGuiContainerBackgroundLayer(float f, int x, int y)
     {
         GL11.glColor4f(1, 1, 1, 1);
-        GuiDraw.changeTexture((new ResourceLocation(FullThrottleNEI.MODID, "textures/gui/editElements.png")).toString());
+        GuiDraw.changeTexture((new ResourceLocation(FullThrottleNEI.MOD_ID, "textures/gui/editElements.png")).toString());
         GuiDraw.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
         ItemStack stack = container.editedItem.getStackInSlot(0);
         if (stack != null)

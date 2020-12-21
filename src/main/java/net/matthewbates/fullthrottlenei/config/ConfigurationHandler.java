@@ -47,7 +47,7 @@ public class ConfigurationHandler
     @SubscribeEvent
     public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
     {
-        if (event.modID.equals(FullThrottleNEI.MODID))
+        if (event.modID.equals(FullThrottleNEI.MOD_ID))
         {
             loadConfiguration();
         }
