@@ -96,6 +96,11 @@ public class FullThrottleNEI
             }
 
             if (outputItemStack == null) continue;
+            if (!AlchemyUtil.getElements(outputItemStack).isEmpty())
+            {
+                FMLLog.log(Level.WARN, "[%s] <%s> already has elements, skipping JSON recipe.", FullThrottleNEI.MOD_ID, elementSource.output);
+                continue;
+            }
 
             HashMap<String, Float> elementInputs = new HashMap<>();
             for (JsonMultiplierItem elementItem : elementSource.inputs.items)
