@@ -11,19 +11,18 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath "net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT"
     }
-}
-
-plugins {
-    id "de.undercouch.download" version "4.1.1"
-    id "com.dorongold.task-tree" version "1.5"
 }
 
 repositories {
     maven {
-        name = 'chickenbones'
+        name = "chickenbones"
         url = "https://chickenbones.net/maven/"
+    }
+    maven {
+        name = "CurseMaven"
+        url = "https://www.cursemaven.com"
     }
 }
 
@@ -47,41 +46,13 @@ minecraft {
     runDir = "run"
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 dependencies {
     compile "codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev"
     compile "codechicken:CodeChickenLib:1.7.10-1.1.3.138:dev"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.5.118:dev"
-}
-
-// Download the FTA jar and place it in /mods
-task downloadFTA(type: Download) {
-    doFirst {
-        mkdir "mods"
-    }
-    src 'https://media.forgecdn.net/files/2307/512/FullThrottle_Alchemist-1.7.10-1.0.18a.jar'
-    dest 'mods'
-    overwrite false
-}
-
-// Verify that the FTA jar that we download hasn't been tampered with by
-// matching the checksum against the one on CurseForge
-task verifyFTA(type: Verify, dependsOn: downloadFTA) {
-    src new File('mods', 'FullThrottle_Alchemist-1.7.10-1.0.18a.jar')
-    algorithm 'MD5'
-    checksum '94194c352d053acc28d46eaf1509079f'
-}
-
-// Simulates the player placing FTA in the mods directory before running the
-// game. We actually place the jar into a top-level /mods folder an make it a
-// compile time dependency rather than putting it in /run/mods so that we can
-// set breakpoints in FTA code
-makeStart.dependsOn "verifyFTA"
-
-dependencies {
-    compile fileTree("mods")
+    compile "curse.maven:fullthrottle-alchemist-242845:2307512"
 }
 
 jar {
